@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SSDLC DevSecOps Flow</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        .title {
+            text-align: center;
+            font-size: 36px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            text-align: center;
+            font-size: 16px;
+            color: #7f8c8d;
+            margin-bottom: 40px;
+        }
+
+        .flow-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 40px;
+            overflow-x: auto;
+            padding: 20px 0;
+        }
+
+        .phase-card {
+            min-width: 220px;
+            height: 320px;
+            border-radius: 20px;
+            padding: 25px;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        .phase-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+        }
+
+        .phase-icon {
+            font-size: 36px;
+            margin-bottom: 15px;
+        }
+
+        .phase-title {
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .phase-subtitle {
+            font-size: 14px;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+
+        .phase-activities {
+            font-size: 12px;
+            line-height: 1.6;
+            opacity: 0.95;
+        }
+
+        .phase-activities strong {
+            display: block;
+            margin: 8px 0 4px 0;
+            font-size: 13px;
+        }
+
+        /* Phase-specific colors */
+        .design { background: linear-gradient(135deg, #e74c3c, #c0392b); }
+        .develop { background: linear-gradient(135deg, #3498db, #2980b9); }
+        .build { background: linear-gradient(135deg, #1abc9c, #16a085); }
+        .test { 
+            background: linear-gradient(135deg, #ff6b35, #f7931e);
+            animation: iac-highlight 4s infinite;
+        }
+        .deploy { background: linear-gradient(135deg, #f39c12, #e67e22); }
+        .operate { background: linear-gradient(135deg, #27ae60, #229954); }
+
+        @keyframes iac-highlight {
+            0%, 100% { 
+                box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+                transform: scale(1);
+            }
+            50% { 
+                box-shadow: 0 15px 35px rgba(255,107,53,0.4), 0 0 30px rgba(255,107,53,0.3);
+                transform: scale(1.02);
+            }
+        }
+
+        .iac-badge {
+            position: absolute;
+            top: -12px;
+            right: -12px;
+            background: #e74c3c;
+            color: white;
+            border-radius: 50%;
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .arrow {
+            color: #bdc3c7;
+            font-size: 24px;
+            animation: flow 2s infinite;
+        }
+
+        @keyframes flow {
+            0%, 100% { transform: translateX(0); opacity: 0.7; }
+            50% { transform: translateX(5px); opacity: 1; }
+        }
+
+        .tools-section {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 30px;
+        }
+
+        .tools-title {
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 25px;
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .tool-category {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            border-left: 4px solid #3498db;
+            transition: transform 0.3s ease;
+        }
+
+        .tool-category:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+        }
+
+        .tool-category.iac-focus {
+            border-left-color: #ff6b35;
+            background: linear-gradient(135deg, #fff8f4, white);
+        }
+
+        .category-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        .category-icon {
+            font-size: 24px;
+        }
+
+        .category-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .category-description {
+            font-size: 14px;
+            color: #34495e;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .tool-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .tool-tag {
+            background: #ecf0f1;
+            color: #2c3e50;
+            padding: 6px 12px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .tool-tag:hover {
+            background: #3498db;
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .iac-tool-tag {
+            background: linear-gradient(135deg, #ff6b35, #f7931e);
+            color: white;
+            font-weight: bold;
+        }
+
+        .iac-tool-tag:hover {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+        }
+
+        .highlight-section {
+            background: linear-gradient(135deg, #e8f5e8, #f0f8f0);
+            border: 2px solid #27ae60;
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .highlight-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+
+        .highlight-title {
+            font-size: 22px;
+            font-weight: bold;
+            color: #27ae60;
+            margin-bottom: 15px;
+        }
+
+        .highlight-content {
+            font-size: 16px;
+            color: #2c3e50;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 768px) {
+            .flow-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .arrow {
+                transform: rotate(90deg);
+            }
+            
+            .phase-card {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="title">🔒 SSDLC DevSecOps Security Lifecycle</div>
+        <div class="subtitle">Comprehensive Security Integration Throughout Development Pipeline</div>
+
+        <!-- Why Security in SDLC Section -->
+        <div style="background: linear-gradient(135deg, #f8f9fa, #e9ecef); border-radius: 20px; padding: 40px; margin-bottom: 40px; border-left: 6px solid #e74c3c;">
+            <div style="text-align: center; margin-bottom: 30px;">
+                <h2 style="color: #2c3e50; font-size: 28px; margin-bottom: 10px;">⚠️ Why Security is Critical in SDLC</h2>
+                <p style="color: #7f8c8d; font-size: 16px; margin: 0;">Understanding the imperative for security-first development</p>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 25px;">
+                <div style="background: white; padding: 25px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                    <h3 style="color: #e74c3c; font-size: 18px; margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
+                        📊 The Security Landscape
+                    </h3>
+                    <ul style="color: #34495e; font-size: 14px; line-height: 1.6; margin: 0; padding-left: 20px;">
+                        <li><strong>29,000+ new vulnerabilities</strong> discovered in 2023 alone</li>
+                        <li><strong>99% of applications</strong> in production contain at least 4 vulnerabilities</li>
+                        <li><strong>$4.45 million</strong> average cost of a data breach (15% increase over 3 years)</li>
+                        <li><strong>$2.08 trillion</strong> total cost of poor software quality in the US (2020)</li>
+                    </ul>
+                </div>
+
+                <div style="background: white; padding: 25px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                    <h3 style="color: #e74c3c; font-size: 18px; margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
+                        🎯 Business Impact
+                    </h3>
+                    <ul style="color: #34495e; font-size: 14px; line-height: 1.6; margin: 0; padding-left: 20px;">
+                        <li><strong>Reputation damage</strong> and customer trust loss</li>
+                        <li><strong>Regulatory compliance</strong> violations and penalties</li>
+                        <li><strong>Revenue loss</strong> from system downtime</li>
+                        <li><strong>Competitive disadvantage</strong> from security incidents</li>
+                    </ul>
+                </div>
+
+                <div style="background: white; padding: 25px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                    <h3 style="color: #e74c3c; font-size: 18px; margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
+                        🚨 Development Challenges
+                    </h3>
+                    <ul style="color: #34495e; font-size: 14px; line-height: 1.6; margin: 0; padding-left: 20px;">
+                        <li><strong>Complex supply chains</strong> with third-party dependencies</li>
+                        <li><strong>Rapid deployment cycles</strong> increasing risk exposure</li>
+                        <li><strong>Cloud-native architectures</strong> expanding attack surfaces</li>
+                        <li><strong>Skill gaps</strong> in security awareness among developers</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cost Analysis Section -->
+        <div style="background: linear-gradient(135deg, #fff5f5, #fee); border-radius: 20px; padding: 40px; margin-bottom: 40px; border-left: 6px solid #ff6b35;">
+            <div style="text-align: center; margin-bottom: 30px;">
+                <h2 style="color: #2c3e50; font-size: 28px; margin-bottom: 10px;">💰 The Exponential Cost of Late Security Integration</h2>
+                <p style="color: #7f8c8d; font-size: 16px; margin: 0;">Why fixing security issues early saves exponential costs</p>
+            </div>
+
+            <div style="background: white; border-radius: 15px; padding: 30px; margin-bottom: 25px; box-shadow: 0 8px 20px rgba(0,0,0,0.1);">
+                <div style="text-align: center; margin-bottom: 25px;">
+                    <h3 style="color: #ff6b35; font-size: 24px; margin-bottom: 10px;">📈 IBM Systems Science Institute Research</h3>
+                    <p style="color: #7f8c8d; font-size: 14px; margin: 0;">Cost multipliers for fixing bugs at different SDLC phases</p>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; text-align: center;">
+                    <div style="background: #e8f5e8; padding: 20px; border-radius: 12px; border: 2px solid #27ae60;">
+                        <div style="font-size: 32px; color: #27ae60; margin-bottom: 8px;">1x</div>
+                        <div style="font-size: 16px; font-weight: bold; color: #2c3e50; margin-bottom: 5px;">Design Phase</div>
+                        <div style="font-size: 12px; color: #7f8c8d;">~$80 to fix</div>
+                    </div>
+                    
+                    <div style="background: #fff3e0; padding: 20px; border-radius: 12px; border: 2px solid #f39c12;">
+                        <div style="font-size: 32px; color: #f39c12; margin-bottom: 8px;">6x</div>
+                        <div style="font-size: 16px; font-weight: bold; color: #2c3e50; margin-bottom: 5px;">Implementation</div>
+                        <div style="font-size: 12px; color: #7f8c8d;">~$480 to fix</div>
+                    </div>
+                    
+                    <div style="background: #ffeaa7; padding: 20px; border-radius: 12px; border: 2px solid #fdcb6e;">
+                        <div style="font-size: 32px; color: #e17055; margin-bottom: 8px;">15x</div>
+                        <div style="font-size: 16px; font-weight: bold; color: #2c3e50; margin-bottom: 5px;">Testing Phase</div>
+                        <div style="font-size: 12px; color: #7f8c8d;">~$1,200 to fix</div>
+                    </div>
+                    
+                    <div style="background: #ffe0e0; padding: 20px; border-radius: 12px; border: 2px solid #e74c3c;">
+                        <div style="font-size: 32px; color: #e74c3c; margin-bottom: 8px;">100x</div>
+                        <div style="font-size: 16px; font-weight: bold; color: #2c3e50; margin-bottom: 5px;">Production</div>
+                        <div style="font-size: 12px; color: #7f8c8d;">~$7,600 to fix</div>
+                    </div>
+                </div>
+
+                <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin-top: 20px; border-left: 4px solid #e74c3c;">
+                    <p style="color: #2c3e50; font-size: 14px; margin: 0; text-align: center;">
+                        <strong>🔥 Key Insight:</strong> The Ponemon Institute found that vulnerabilities cost ~$80 to fix during development 
+                        but <strong>$7,600 to fix in production</strong> - a staggering <strong>9,400% increase!</strong>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Shift Left Security Section -->
+        <div style="background: linear-gradient(135deg, #f0f8ff, #e6f3ff); border-radius: 20px; padding: 40px; margin-bottom: 40px; border-left: 6px solid #3498db;">
+            <div style="text-align: center; margin-bottom: 30px;">
+                <h2 style="color: #2c3e50; font-size: 28px; margin-bottom: 10px;">🔄 Why Shift-Left Security is Essential</h2>
+                <p style="color: #7f8c8d; font-size: 16px; margin: 0;">Moving security to the beginning of the development process</p>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 25px; margin-bottom: 30px;">
+                <div style="background: white; padding: 25px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                    <h3 style="color: #3498db; font-size: 18px; margin-bottom: 15px;">🎯 What is Shift-Left Security?</h3>
+                    <p style="color: #34495e; font-size: 14px; line-height: 1.6; margin-bottom: 15px;">
+                        Shift-left security integrates security practices into the earliest stages of the SDLC, 
+                        moving from reactive "bolt-on" security to proactive "built-in" security.
+                    </p>
+                    <ul style="color: #34495e; font-size: 13px; line-height: 1.5; margin: 0; padding-left: 20px;">
+                        <li>Security requirements in design phase</li>
+                        <li>Automated security testing in CI/CD</li>
+                        <li>Developer security training and tools</li>
+                        <li>Continuous security monitoring</li>
+                    </ul>
+                </div>
+
+                <div style="background: white; padding: 25px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                    <h3 style="color: #3498db; font-size: 18px; margin-bottom: 15px;">🚀 Core Benefits</h3>
+                    <ul style="color: #34495e; font-size: 14px; line-height: 1.6; margin: 0; padding-left: 20px;">
+                        <li><strong>Early vulnerability detection</strong> before code deployment</li>
+                        <li><strong>Faster time-to-market</strong> with fewer last-minute fixes</li>
+                        <li><strong>Reduced development costs</strong> through proactive fixes</li>
+                        <li><strong>Enhanced collaboration</strong> between dev, sec, and ops teams</li>
+                        <li><strong>Improved customer trust</strong> through secure applications</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div style="background: white; border-radius: 15px; padding: 25px; box-shadow: 0 8px 20px rgba(0,0,0,0.1);">
+                <h3 style="color: #3498db; font-size: 20px; margin-bottom: 20px; text-align: center;">🔧 Shift-Left Implementation Strategies</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+                    <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; border-left: 4px solid #27ae60;">
+                        <h4 style="color: #27ae60; font-size: 16px; margin-bottom: 10px;">🛠️ Tooling Integration</h4>
+                        <p style="color: #34495e; font-size: 13px; line-height: 1.5; margin: 0;">
+                            IDE security plugins, automated SAST/DAST tools, and CI/CD pipeline integration 
+                            for continuous security feedback.
+                        </p>
+                    </div>
+                    
+                    <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; border-left: 4px solid #f39c12;">
+                        <h4 style="color: #f39c12; font-size: 16px; margin-bottom: 10px;">👥 Cultural Change</h4>
+                        <p style="color: #34495e; font-size: 13px; line-height: 1.5; margin: 0;">
+                            Security champions programs, developer training, and shared responsibility 
+                            for security across all teams.
+                        </p>
+                    </div>
+                    
+                    <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; border-left: 4px solid #e74c3c;">
+                        <h4 style="color: #e74c3c; font-size: 16px; margin-bottom: 10px;">⚡ Automation</h4>
+                        <p style="color: #34495e; font-size: 13px; line-height: 1.5; margin: 0;">
+                            Automated security testing, policy-as-code enforcement, and continuous 
+                            vulnerability management throughout the pipeline.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Main Flow -->
+        <div class="flow-container">
+            <div class="phase-card design">
+                <div class="phase-icon">📋</div>
+                <div class="phase-title">DESIGN</div>
+                <div class="phase-subtitle">Plan & Architecture</div>
+                <div class="phase-activities">
+                    <strong>Security Planning:</strong>
+                    • Threat Modeling<br>
+                    • Security Requirements<br>
+                    • Risk Assessment<br>
+                    • Secure Architecture Design<br>
+                    • Security User Stories
+                </div>
+            </div>
+
+            <div class="arrow">→</div>
+
+            <div class="phase-card develop">
+                <div class="phase-icon">👨‍💻</div>
+                <div class="phase-title">DEVELOP</div>
+                <div class="phase-subtitle">Code & Review</div>
+                <div class="phase-activities">
+                    <strong>Secure Development:</strong>
+                    • Secure Coding Standards<br>
+                    • Code Authentication<br>
+                    • Repository Security<br>
+                    • IDE Security Plugins<br>
+                    • Peer Code Reviews
+                </div>
+            </div>
+
+            <div class="arrow">→</div>
+
+            <div class="phase-card build">
+                <div class="phase-icon">🔨</div>
+                <div class="phase-title">BUILD</div>
+                <div class="phase-subtitle">Compile & Package</div>
+                <div class="phase-activities">
+                    <strong>Build Security:</strong>
+                    • Static Analysis (SAST)<br>
+                    • Dependency Scanning (SCA)<br>
+                    • Secret Management<br>
+                    • Container Security<br>
+                    • Build Pipeline Security
+                </div>
+            </div>
+
+            <div class="arrow">→</div>
+
+            <div class="phase-card test">
+                <div class="iac-badge">IaC</div>
+                <div class="phase-icon">🧪</div>
+                <div class="phase-title">TEST</div>
+                <div class="phase-subtitle">Validate & Scan</div>
+                <div class="phase-activities">
+                    <strong>Comprehensive Testing:</strong>
+                    • Dynamic Testing (DAST)<br>
+                    • Interactive Testing (IAST)<br>
+                    • <strong>IaC Security Scanning</strong><br>
+                    • Penetration Testing<br>
+                    • API Security Testing
+                </div>
+            </div>
+
+            <div class="arrow">→</div>
+
+            <div class="phase-card deploy">
+                <div class="phase-icon">🚀</div>
+                <div class="phase-title">DEPLOY</div>
+                <div class="phase-subtitle">Release & Configure</div>
+                <div class="phase-activities">
+                    <strong>Secure Deployment:</strong>
+                    • Configuration Management<br>
+                    • Infrastructure Hardening<br>
+                    • Compliance Validation<br>
+                    • Release Gates<br>
+                    • Environment Security
+                </div>
+            </div>
+
+            <div class="arrow">→</div>
+
+            <div class="phase-card operate">
+                <div class="phase-icon">📊</div>
+                <div class="phase-title">OPERATE</div>
+                <div class="phase-subtitle">Monitor & Maintain</div>
+                <div class="phase-activities">
+                    <strong>Runtime Security:</strong>
+                    • Runtime Protection (RASP)<br>
+                    • Security Monitoring (SIEM)<br>
+                    • Incident Response<br>
+                    • Threat Hunting<br>
+                    • Continuous Monitoring
+                </div>
+            </div>
+        </div>
+
+        <!-- Security Tools Section -->
+        <div class="tools-section">
+            <div class="tools-title">🛡️ Security Tools & Technologies by Phase</div>
+            <div class="tools-grid">
+                <div class="tool-category">
+                    <div class="category-header">
+                        <div class="category-icon">📋</div>
+                        <div class="category-title">Design Security Tools</div>
+                    </div>
+                    <div class="category-description">
+                        Tools for threat modeling, risk assessment, and secure architecture planning
+                    </div>
+                    <div class="tool-tags">
+                        <div class="tool-tag">STRIDE</div>
+                        <div class="tool-tag">PASTA</div>
+                        <div class="tool-tag">OWASP ASVS</div>
+                        <div class="tool-tag">Threat Dragon</div>
+                        <div class="tool-tag">Attack Trees</div>
+                    </div>
+                </div>
+
+                <div class="tool-category">
+                    <div class="category-header">
+                        <div class="category-icon">👨‍💻</div>
+                        <div class="category-title">Development Security</div>
+                    </div>
+                    <div class="category-description">
+                        Secure coding practices and repository security management tools
+                    </div>
+                    <div class="tool-tags">
+                        <div class="tool-tag">Git Secrets</div>
+                        <div class="tool-tag">Pre-commit Hooks</div>
+                        <div class="tool-tag">SonarLint</div>
+                        <div class="tool-tag">GitHub Security</div>
+                        <div class="tool-tag">GitGuardian</div>
+                    </div>
+                </div>
+
+                <div class="tool-category">
+                    <div class="category-header">
+                        <div class="category-icon">🔨</div>
+                        <div class="category-title">Build Security Tools</div>
+                    </div>
+                    <div class="category-description">
+                        Static analysis and dependency scanning for build pipeline security
+                    </div>
+                    <div class="tool-tags">
+                        <div class="tool-tag">SonarQube</div>
+                        <div class="tool-tag">Checkmarx</div>
+                        <div class="tool-tag">Snyk</div>
+                        <div class="tool-tag">OWASP DC</div>
+                        <div class="tool-tag">WhiteSource</div>
+                        <div class="tool-tag">Veracode</div>
+                    </div>
+                </div>
+
+                <div class="tool-category iac-focus">
+                    <div class="category-header">
+                        <div class="category-icon">🧪</div>
+                        <div class="category-title">Test Security + IaC Integration</div>
+                    </div>
+                    <div class="category-description">
+                        Dynamic testing tools plus Infrastructure-as-Code security scanning for cloud validation
+                    </div>
+                    <div class="tool-tags">
+                        <div class="tool-tag">OWASP ZAP</div>
+                        <div class="tool-tag">Burp Suite</div>
+                        <div class="tool-tag">Nessus</div>
+                        <div class="iac-tool-tag">Checkov</div>
+                        <div class="iac-tool-tag">Terrascan</div>
+                        <div class="iac-tool-tag">tfsec</div>
+                        <div class="iac-tool-tag">Bridgecrew</div>
+                        <div class="iac-tool-tag">Open Policy Agent</div>
+                        <div class="iac-tool-tag">HashiCorp Sentinel</div>
+                    </div>
+                </div>
+
+                <div class="tool-category">
+                    <div class="category-header">
+                        <div class="category-icon">🚀</div>
+                        <div class="category-title">Deployment Security</div>
+                    </div>
+                    <div class="category-description">
+                        Configuration management and compliance validation for secure deployments
+                    </div>
+                    <div class="tool-tags">
+                        <div class="tool-tag">Ansible</div>
+                        <div class="tool-tag">Chef InSpec</div>
+                        <div class="tool-tag">AWS Config</div>
+                        <div class="tool-tag">Azure Policy</div>
+                        <div class="tool-tag">GCP Security Command Center</div>
+                    </div>
+                </div>
+
+                <div class="tool-category">
+                    <div class="category-header">
+                        <div class="category-icon">📊</div>
+                        <div class="category-title">Operations Security</div>
+                    </div>
+                    <div class="category-description">
+                        Runtime protection, monitoring, and incident response capabilities
+                    </div>
+                    <div class="tool-tags">
+                        <div class="tool-tag">Splunk</div>
+                        <div class="tool-tag">ELK Stack</div>
+                        <div class="tool-tag">Datadog</div>
+                        <div class="tool-tag">AWS GuardDuty</div>
+                        <div class="tool-tag">CrowdStrike</div>
+                        <div class="tool-tag">PagerDuty</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- IaC Highlight Section -->
+        <div class="highlight-section">
+            <div class="highlight-icon">🎯</div>
+            <div class="highlight-title">Infrastructure-as-Code Security Integration</div>
+            <div class="highlight-content">
+                <strong>The TEST phase now includes comprehensive IaC security scanning</strong> to validate cloud infrastructure configurations before deployment. 
+                This integration ensures that cloud resources are properly configured, compliant with security policies, and free from misconfigurations 
+                that could lead to security vulnerabilities. Tools like Checkov, Terrascan, and tfsec scan Terraform, CloudFormation, and Kubernetes 
+                manifests to maintain a strong cloud security posture throughout the development lifecycle.
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Interactive phase card effects
+        document.querySelectorAll('.phase-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const title = this.querySelector('.phase-title').textContent;
+                const activities = this.querySelector('.phase-activities').textContent;
+                
+                // Special handling for IaC test phase
+                if (this.classList.contains('test')) {
+                    const iacDetails = `
+${title} PHASE - IaC SECURITY FOCUS
+
+${activities}
+
+🔥 IaC SECURITY SCANNING DETAILS:
+• Cloud configuration validation (AWS, Azure, GCP)
+• Policy-as-code enforcement with OPA/Sentinel
+• Infrastructure compliance checking against CIS benchmarks
+• Terraform/CloudFormation security analysis
+• Kubernetes security policy validation
+• Container security scanning
+• Network security configuration review
+• IAM permissions and access control validation
+
+This comprehensive IaC integration ensures secure cloud infrastructure deployment!`;
+                    alert(iacDetails);
+                } else {
+                    alert(`🔒 ${title} PHASE\n\n${activities}`);
+                }
+            });
+        });
+
+        // Enhanced IaC badge animation
+        const iacBadge = document.querySelector('.iac-badge');
+        let badgeClickCount = 0;
+        
+        iacBadge.addEventListener('click', function(e) {
+            e.stopPropagation();
+            badgeClickCount++;
+            
+            if (badgeClickCount % 3 === 0) {
+                this.style.background = '#27ae60';
+                this.textContent = '✓';
+                setTimeout(() => {
+                    this.style.background = '#e74c3c';
+                    this.textContent = 'IaC';
+                }, 1000);
+            }
+            
+            alert('🚀 Infrastructure-as-Code Security Scanning Active!\n\nValidating cloud configurations for security compliance...');
+        });
+
+        // Smooth scrolling for better UX
+        document.querySelectorAll('.tool-tag').forEach(tag => {
+            tag.addEventListener('click', function() {
+                const toolName = this.textContent;
+                if (this.classList.contains('iac-tool-tag')) {
+                    alert(`🔧 ${toolName}\n\nThis is an Infrastructure-as-Code security scanning tool that validates cloud configurations and ensures compliance with security policies.`);
+                } else {
+                    alert(`🛠️ ${toolName}\n\nThis tool is used in the DevSecOps pipeline for security analysis and vulnerability detection.`);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
