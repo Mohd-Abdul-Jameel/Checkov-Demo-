@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{techolution} - {Security done right}</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 60px;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            color: white;
+            font-family: 'Segoe UI', monospace;
+        }
+
+        .header p {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+            color: white;
+        }
+
+        .logo-bracket, .slogan-bracket {
+            color: #20B2AA;
+            font-weight: 900;
+        }
+
+        .logo-bracket {
+            font-size: 4rem;
+        }
+
+        .slogan-bracket {
+            font-size: 1.4rem;
+        }
+
+        .header p {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .demo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        .demo-card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .demo-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+        }
+
+        .demo-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.2);
+        }
+
+        .demo-card h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: #2c3e50;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .demo-card .icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        .ssdlc-icon {
+            background: linear-gradient(135deg, #4facfe, #00f2fe);
+        }
+
+        .checkov-icon {
+            background: linear-gradient(135deg, #fa709a, #fee140);
+        }
+
+        .demo-card p {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .demo-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .demo-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+            background: linear-gradient(135deg, #5a6fd8, #6a42a0);
+        }
+
+        .navigation-section {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+
+        .navigation-section h3 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: #2c3e50;
+            text-align: center;
+        }
+
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .nav-link {
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(240, 147, 251, 0.3);
+        }
+
+        .nav-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(240, 147, 251, 0.4);
+        }
+
+        .author-credit {
+            text-align: center;
+            color: white;
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-top: 40px;
+            padding: 30px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .author-credit strong {
+            font-size: 1.4rem;
+            display: block;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #fff, #f0f0f0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .logo-bracket {
+                font-size: 3rem;
+            }
+            
+            .slogan-bracket {
+                font-size: 1.2rem;
+            }
+            
+            .demo-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            
+            .demo-card {
+                padding: 30px 20px;
+            }
+            
+            .nav-links {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+
+        .highlight {
+            background: linear-gradient(120deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0.1) 100%);
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #fff;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1><span class="logo-bracket">{</span>techolution<span class="logo-bracket">}</span></h1>
+            <p><span class="slogan-bracket">{</span>security done right<span class="slogan-bracket">}</span></p>
+        </header>
+
+        <div class="demo-grid">
+            <div class="demo-card">
+                <h2>
+                    <div class="icon ssdlc-icon">🔐</div>
+                    Understanding SSDLC
+                </h2>
+                <p>
+                    Dive deep into the Secure Software Development Lifecycle methodology. Learn about security practices, threat modeling, secure coding standards, and how to integrate security throughout the development process.
+                </p>
+                <div class="highlight">
+                    <strong>Key Topics:</strong> Security by Design, Threat Modeling, Secure Coding, Security Testing, IaC Security
+                </div>
+                <a href="Understanding SSDLC.html" class="demo-link">
+                    📚 Explore SSDLC Guide →
+                </a>
+            </div>
+
+            <div class="demo-card">
+                <h2>
+                    <div class="icon checkov-icon">⚡</div>
+                    Checkov Demo - why not Sonarcloud 
+                </h2>
+                <p>
+                    Discover the power of Checkov for Infrastructure as Code security scanning. See practical examples of how to identify and fix security misconfigurations in your cloud infrastructure code.
+                </p>
+                <div class="highlight">
+                    <strong>Key Features:</strong> IaC Scanning, Policy Enforcement, Security Compliance, Automation
+                </div>
+                <a href="Checkov-demo.html" class="demo-link">
+                    🚀 View Checkov Demo →
+                </a>
+            </div>
+        </div>
+
+        <div class="navigation-section">
+            <h3>🔗 Quick Navigation</h3>
+            <div class="nav-links">
+                <a href="Understanding SSDLC.html" class="nav-link">SSDLC Guide</a>
+                <a href="Checkov-demo.html" class="nav-link">Checkov Demo</a>
+                <a href="https://github.com/Mohd-Abdul-Jameel/Checkov-Demo-" class="nav-link" target="_blank">GitHub Repository</a>
+            </div>
+        </div>
+
+        <div class="author-credit">
+            <strong>Demo By Mohd Abdul Jameel</strong>
+            <p>Security Engineer Associate at Techolution</p>
+            <p>Making a small contribution to Techolution's security excellence, one day at a time</p>
+        </div>
+    </div>
+</body>
+</html>
