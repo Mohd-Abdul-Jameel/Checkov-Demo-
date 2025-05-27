@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{techolution} - {Security done right}</title>
+    <title>{ techolution } - { Security done right }</title>
     <style>
         * {
             margin: 0;
@@ -72,7 +72,7 @@
 
         .demo-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
             gap: 40px;
             margin-bottom: 60px;
         }
@@ -128,6 +128,10 @@
 
         .checkov-icon {
             background: linear-gradient(135deg, #fa709a, #fee140);
+        }
+
+        .report-icon {
+            background: linear-gradient(135deg, #a8edea, #fed6e3);
         }
 
         .demo-card p {
@@ -269,10 +273,10 @@
                     Understanding SSDLC
                 </h2>
                 <p>
-                    Dive deep into the Secure Software Development Lifecycle methodology. Learn about security practices, threat modeling, secure coding standards, and how to integrate security throughout the development process.
+                    Dive deep into the Secure Software Development Lifecycle methodology. Learn about why SSDLC is important, Shift Left Approach and its benefits, Business Impact, threat modeling, secure coding standards, and how to integrate security throughout the development process.
                 </p>
                 <div class="highlight">
-                    <strong>Key Topics:</strong> Security by Design, Threat Modeling, Secure Coding, Security Testing, IaC Security
+                    <strong>Key Topics:</strong> Security by Design, Threat Modeling, Secure Coding, Security Testing
                 </div>
                 <a href="Understanding SSDLC.html" class="demo-link">
                     📚 Explore SSDLC Guide →
@@ -282,7 +286,7 @@
             <div class="demo-card">
                 <h2>
                     <div class="icon checkov-icon">⚡</div>
-                    Checkov Demo - why not Sonarcloud 
+                    Checkov Demo
                 </h2>
                 <p>
                     Discover the power of Checkov for Infrastructure as Code security scanning. See practical examples of how to identify and fix security misconfigurations in your cloud infrastructure code.
@@ -294,6 +298,22 @@
                     🚀 View Checkov Demo →
                 </a>
             </div>
+
+            <div class="demo-card">
+                <h2>
+                    <div class="icon report-icon">📊</div>
+                    Sample Report
+                </h2>
+                <p>
+                    Download a sample security report generated from automated script analysis. This CSV contains results of Checkov tool in a structured format for further analysis.
+                </p>
+                <div class="highlight">
+                    <strong>Contains:</strong> Security Metrics, Vulnerability Data, Compliance Results, Risk Analysis
+                </div>
+                <a href="sample-report.csv" class="demo-link" download="techolution-security-report.csv">
+                    📥 Download Sample Report →
+                </a>
+            </div>
         </div>
 
         <div class="navigation-section">
@@ -301,6 +321,7 @@
             <div class="nav-links">
                 <a href="Understanding SSDLC.html" class="nav-link">SSDLC Guide</a>
                 <a href="Checkov-demo.html" class="nav-link">Checkov Demo</a>
+                <a href="sample-report.csv" class="nav-link" download="techolution-security-report.csv">Download Report</a>
                 <a href="https://github.com/Mohd-Abdul-Jameel/Checkov-Demo-" class="nav-link" target="_blank">GitHub Repository</a>
             </div>
         </div>
