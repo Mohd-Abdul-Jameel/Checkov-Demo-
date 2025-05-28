@@ -1204,36 +1204,37 @@ By bridgecrew.io | version: 3.2.43
                     <div class="code-container">
                         <div class="code-header">GitHub Actions Integration</div>
                         <div class="code-block">
-<span class="tf-comment"># .github/workflows/iac-security.yml</span>
-<span class="tf-attribute">name</span>: <span class="tf-string">Infrastructure Security Scan</span>
-<span class="tf-attribute">on</span>:
-  <span class="tf-attribute">push</span>:
-    <span class="tf-attribute">branches</span>: [ <span class="tf-string">main</span>, <span class="tf-string">develop</span> ]
-  <span class="tf-attribute">pull_request</span>:
-    <span class="tf-attribute">branches</span>: [ <span class="tf-string">main</span> ]
+                        <pre><code class="language-yaml">name: Infrastructure Security Scan
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
 
-<span class="tf-attribute">jobs</span>:
-  <span class="tf-attribute">checkov-scan</span>:
-    <span class="tf-attribute">runs-on</span>: <span class="tf-string">ubuntu-latest</span>
-    <span class="tf-attribute">steps</span>:
-    - <span class="tf-attribute">name</span>: <span class="tf-string">Checkout Repository</span>
-      <span class="tf-attribute">uses</span>: <span class="tf-string">actions/checkout@v3</span>
-    
-    - <span class="tf-attribute">name</span>: <span class="tf-string">Run Checkov Scan</span>
-      <span class="tf-attribute">uses</span>: <span class="tf-string">bridgecrewio/checkov-action@master</span>
-      <span class="tf-attribute">with</span>:
-        <span class="tf-attribute">directory</span>: <span class="tf-string">.</span>
-        <span class="tf-attribute">framework</span>: <span class="tf-string">terraform,cloudformation</span>
-        <span class="tf-attribute">soft_fail</span>: <span class="tf-boolean">false</span>
-        <span class="tf-attribute">output_format</span>: <span class="tf-string">sarif</span>
-        <span class="tf-attribute">output_file_path</span>: <span class="tf-string">reports/results.sarif</span>
-        <span class="tf-attribute">skip_check</span>: <span class="tf-string">CKV_AWS_79,CKV_AWS_126</span>
-    
-    - <span class="tf-attribute">name</span>: <span class="tf-string">Upload SARIF Results</span>
-      <span class="tf-attribute">uses</span>: <span class="tf-string">github/codeql-action/upload-sarif@v2</span>
-      <span class="tf-attribute">if</span>: <span class="tf-string">always()</span>
-      <span class="tf-attribute">with</span>:
-        <span class="tf-attribute">sarif_file</span>: <span class="tf-string">reports/results.sarif</span>
+jobs:
+  checkov-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Run Checkov Scan
+        uses: bridgecrewio/checkov-action@v12
+        with:
+          directory: .
+          framework: terraform,cloudformation
+          soft_fail: false
+          output_format: sarif
+          output_file_path: reports/results.sarif
+          skip_check: CKV_AWS_79,CKV_AWS_126
+
+      - name: Upload SARIF Results
+        uses: github/codeql-action/upload-sarif@v2
+        if: always()
+        with:
+          sarif_file: reports/results.sarif
+</code></pre>
+
                         </div>
                     </div>
 
