@@ -1205,34 +1205,32 @@ By bridgecrew.io | version: 3.2.43
                         <div class="code-header">GitHub Actions Integration</div>
                         <div class="code-block">
                         <pre><code class="language-yaml">name: Infrastructure Security Scan
+name: Terraform Security Scan
+
 on:
   push:
-    branches: [ main, develop ]
+    branches:
+      - main
   pull_request:
-    branches: [ main ]
 
 jobs:
-  checkov-scan:
+  checkov:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Repository
+      - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Run Checkov Scan
-        uses: bridgecrewio/checkov-action@v12
+      - name: Set up Python
+        uses: actions/setup-python@v4
         with:
-          directory: .
-          framework: terraform,cloudformation
-          soft_fail: false
-          output_format: sarif
-          output_file_path: reports/results.sarif
-          skip_check: CKV_AWS_79,CKV_AWS_126
+          python-version: '3.x'
 
-      - name: Upload SARIF Results
-        uses: github/codeql-action/upload-sarif@v2
-        if: always()
-        with:
-          sarif_file: reports/results.sarif
+      - name: Install Checkov
+        run: pip install checkov
+
+      - name: Run Checkov scan
+        run: checkov -d . --download-external-modules true
+
 </code></pre>
 
                         </div>
